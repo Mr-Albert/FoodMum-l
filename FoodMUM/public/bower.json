@@ -1,0 +1,22 @@
+{
+  "name": "public",
+  "homepage": "https://github.com/Mr-Albert/FoodMum-l",
+  "authors": [
+    "Mina <mina.reda.k.albert@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "apache",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "admin-lte": "adminlte#^2.4.3",
+    "components-font-awesome": "^5.0.6",
+    "Ionicons": "ionicons#^2.0.1"
+  }
+}
