@@ -16,7 +16,7 @@ class LoginController extends Controller
     | redirecting them to your home screen. The controller uses a trait
     | to conveniently provide its functionality to your applications.
     |
-    */
+     */
 
     use AuthenticatesUsers;
 
@@ -38,6 +38,6 @@ class LoginController extends Controller
     }
     public function username()
     {
-        return 'userName';
+        return config('adminlte.login_method', 'email');
     }
 }
