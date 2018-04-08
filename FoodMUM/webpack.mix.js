@@ -13,3 +13,6 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
+var bower_path = './bower_components';
+var js_path = 'public/js';
+mix.copy(bower_path + '/pqGrid/pqgrid.min.js', js_path);   

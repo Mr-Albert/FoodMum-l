@@ -119,17 +119,17 @@ return [
     'menu' => [
         'MAIN NAVIGATION',
         [
-            'text' => 'Blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'text' => 'Websit',
+            'url'  => 'admin/website',
+            'can'  => 'manage-website',
         ],
-        [
-            'text'        => 'Pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
+        // [
+        //     'text'        => 'Pages',
+        //     'url'         => 'admin/pages',
+        //     'icon'        => 'file',
+        //     'label'       => 4,
+        //     'label_color' => 'success',
+        // ],
         'ACCOUNT SETTINGS',
         [
             'text' => 'Profile',
