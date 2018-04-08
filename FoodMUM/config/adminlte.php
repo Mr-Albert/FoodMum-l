@@ -103,6 +103,10 @@ return [
     'login_url' => 'login',
 
     'register_url' => 'register',
+    'topbar'=>[
+        'messeges'=>true,
+        'notifications'=>true
+    ],
 
     /*
     |--------------------------------------------------------------------------

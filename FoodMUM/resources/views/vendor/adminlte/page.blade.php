@@ -57,7 +57,7 @@
                 <div class="navbar-custom-menu">
 
                     <ul class="nav navbar-nav">
-                        <li>
+                        {{-- <li>
                             @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
                                 <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}">
                                     <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
@@ -75,8 +75,71 @@
                                     {{ csrf_field() }}
                                 </form>
                             @endif
+                        </li> --}}
+                <!-- Messages: style can be found in dropdown.less-->
+               @if( config('adminlte.topbar.messeges', false))
+               
+                   <li class="dropdown messages-menu">
+                    <!-- Menu toggle button -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-envelope-o"></i>
+                        <span class="label label-success"> "Dynamic number of msgs"</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="header">You have "Dynamic number of msgs" messages</li>
+                        <li>
+                            <!-- inner menu: contains the messages -->
+                            {{--  "Dynamic ul  of msgs"  --}}
+                            <ul class="menu">
+                                <li><!-- start message -->
+                                    <a href="#">
+                                        <div class="pull-left">
+                                            <!-- User Image -->
+                                            <img src="{{ asset("/bower_components/admin-lte/dist/img/user2-160x160.jpg") }}" class="img-circle" alt="User Image"/>
+                                        </div>
+                                        <!-- Message title and timestamp -->
+                                        <h4>
+                                            Support Team
+                                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                        </h4>
+                                        <!-- The message -->
+                                        <p>Why not buy a new awesome theme?</p>
+                                    </a>
+                                </li><!-- end message -->
+                            </ul><!-- /.menu -->
                         </li>
+                        <li class="footer"><a href="{{ url('/messages') }}">See All Messages</a></li>
                     </ul>
+                   </li><!-- /.messages-menu -->
+               @endif
+               @if( config('adminlte.topbar.notifications', false))
+               
+                    <!-- Notifications Menu -->
+                    <li class="dropdown notifications-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning">Dynamic no of notifications</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have "Dynamic no of notifications" notifications</li>
+                            <li>
+                                <!-- Inner Menu: contains the notifications -->
+                                {{--  Dynamic ul of notifications  --}}
+                                <ul class="menu">
+                                    <li><!-- start notification -->
+                                        <a href="#">
+                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                        </a>
+                                    </li><!-- end notification -->
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="{{ url('/messages') }}">View all</a></li>
+                        </ul>
+                    </li>
+               @endif
+               {{--  add any other items  --}}
+            </ul>
                 </div>
                 @if(config('adminlte.layout') == 'top-nav')
                 </div>
