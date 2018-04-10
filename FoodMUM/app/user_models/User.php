@@ -32,7 +32,12 @@ class User extends Authenticatable
     ];
     public function roles()
     {
-        //rlated table model, intermeddiate table,forgienkey of current table,forgienkey of the related table
-        return $this->belongsToMany('App\user_model\Role','role_user','user_id', 'role_id');
+        //related table model, intermeddiate table,forgienkey of current table,forgienkey of the related table
+        return $this->belongsToMany('App\user_models\Role','role_user','user_id', 'role_id');
     }
+    public function notifications()
+    {
+        return $this->belongsToMany('App\user_models\Notification','notification_user','user_id', 'notification_id')->withPivot('read');
+    }
+
 }

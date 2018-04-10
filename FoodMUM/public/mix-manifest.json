@@ -1,5 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/js/pqgrid.min.js": "/js/pqgrid.min.js"
+    "/css/pqgrid.min.css": "/css/pqgrid.min.css",
+    "/js/pqgrid.min.js": "/js/pqgrid.min.js",
+    "/js/jquery-ui.js": "/js/jquery-ui.js"
 }

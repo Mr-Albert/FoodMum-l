@@ -110,12 +110,12 @@
                                 <ul class="menu">
                                     <li><!-- start notification -->
                                         <a href="#">
-                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                            <i class="fa fa-bell text-red"></i> 5 new members joined today
                                         </a>
                                     </li><!-- end notification -->
                                 </ul>
                             </li>
-                            <li class="footer"><a href="{{ url('/messages') }}">View all</a></li>
+                            <li class="footer"><a href="{{ url('/notifications') }}">View all</a></li>
                         </ul>
                     </li>
                @endif

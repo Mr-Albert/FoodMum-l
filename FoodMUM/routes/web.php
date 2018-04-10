@@ -18,3 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//make it api
+Route::get('notification', 'NotificationController@index')->name('notificationPage');//gets the notifications page
+Route::get('notification/all/{noOfNotifications?}', 'NotificationController@showAll')->name('notificationInPage');//gets the notifications for the notificaitons page with details  
+Route::get('notification/{noOfNotifications}', 'NotificationController@show')->name('notificationBar');//gets the notifications for the icon in the top bar 
+Route::put('notification/create', 'NotificationController@update')->name('putNotification');//create a notification 
