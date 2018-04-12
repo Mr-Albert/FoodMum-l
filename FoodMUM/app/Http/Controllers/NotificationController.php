@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Notifications\sysNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 class NotificationController extends Controller
 {
     /**
@@ -63,22 +62,11 @@ class NotificationController extends Controller
 
     public function showAll(Request $request,$noOfNotifications= 0)
     {
-        // $notifications=Auth::user()->notifications()->take($noOfNotifications)->get();
-
-        $notificationsTitles=array();
-        $notificationsIds=array();
-        $notifications=Auth::user()->notifications()->get(['title']);
-        foreach($notifications as $notification)
-        {
-            $notificationsTitles[]=['title'=>$notification['title'],'notification_id'=>$notification['pivot']['notification_id'],'read'=>$notification['pivot']['read']];
-            if($notification['pivot']['read']==false)
-                $unReadNotificationsIds[]=$notification['pivot']['notification_id'];
-        }
-        //bugFix:to solve the ambig update col,the query must be anything->everything->toBase()->update(...);
-        //Auth::user()->notifications()->where('read',false)->whereIn('notification_id', $unReadNotificationsIds)->toBase()->update(['read' => true,'notification_user.updated_at' => now()]);
-        return (json_encode(['data'=>$notificationsTitles]));
+        $notifications=Auth::user()->notifications()->paginate(5,['id','type','data','read_at','created_at'],'page',5)->toJSON();
         //issue:make them read
-        return ($notifications);
+        return (( $notifications));
+        // $sysNotification=['title'=>'1','data'=>'anydata'];
+        // \App\User::find(1)->notify(new sysNotification($sysNotification));
     }
 
     /**
