@@ -96,23 +96,19 @@
                @if( config('adminlte.topbar.notifications', false))
                
                     <!-- Notifications Menu -->
-                    <li class="dropdown notifications-menu">
+                    <li id="notifications-dropDowns" class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">Dynamic no of notifications</span>
+                            <span id ="notifications_number" class="label label-warning">{{Auth::user()->unreadNotifications()->count()}}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">You have "Dynamic no of notifications" notifications</li>
-                            <li>
+                            <li class="header">You have {{Auth::user()->unreadNotifications()->count()}} notifications</li>
+                            <li >
                                 <!-- Inner Menu: contains the notifications -->
                                 {{--  Dynamic ul of notifications  --}}
-                                <ul class="menu">
-                                    <li><!-- start notification -->
-                                        <a href="#">
-                                            <i class="fa fa-bell text-red"></i> 5 new members joined today
-                                        </a>
-                                    </li><!-- end notification -->
+                                <ul id="notifications_menu" class="menu">
+                                    <div style="margin: 0 auto;" class="loader"></div>
                                 </ul>
                             </li>
                             <li class="footer"><a href="{{ url('/notifications') }}">View all</a></li>
@@ -236,4 +232,82 @@
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     @stack('js')
     @yield('js')
+<script>
+$(document).ready(function() {
+
+
+    $('#notifications-dropDowns').click(function () {
+        var thisElem=$(this);
+        if(!thisElem.hasClass('open'))
+        {
+
+            $.ajax({
+        url:'notification/10',
+        success: function (response) {
+            $('#notifications_menu').html("");
+            JSONRespone=JSON.parse(response);
+            $('#notifications_number').html(JSONRespone.total- JSONRespone.notifications.length);
+            JSONRespone.notifications.forEach( element=>{
+                $('#notifications_menu').append("<li><a href='#'><i class='fa fa-bell text-red'></i>"+element+"</a></li>");
+            }
+
+            );
+        },
+        error: function (e) {
+            console.log(e);            
+        },
+    });  
+        }
+});
+
+
+
+    function ScrollFn(){
+  var div=$(this);
+  //console.log(div[0].scrollHeight+"scrolltop"+div.scrollTop()+" hieght "+div.height());
+  if(div[0].scrollHeight-div.scrollTop()-1<=div.height()){
+       $('#notifications_menu').unbind('scroll');
+
+    $.ajax({
+        url:'notification/5',
+        success: function (response) {
+            console.log(response);
+            JSONRespone=JSON.parse(response);
+            $('#notifications_number').html(JSONRespone.total- JSONRespone.notifications.length);
+            JSONRespone.notifications.forEach( element=>{
+                div.append("<li><a href='#'><i class='fa fa-bell text-red'></i>"+element+"</a></li>");
+            }
+
+            );
+
+            $('#notifications_menu').scroll(ScrollFn);
+
+            //div.append("<li><a href='#'><i class='fa fa-bell text-red'></i>4444 new members joined today</a></li>");
+        },
+        error: function (e) {
+            console.log(e);            
+        },
+    });
+}}
+  $('#notifications_menu').scroll(ScrollFn);
+}); 
+</script>    
+
+<style>
+.loader {
+    border: 3px solid #f3f3f3; /* Light grey */
+    border-top: 3px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+</style>
 @stop
+

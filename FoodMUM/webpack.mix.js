@@ -17,4 +17,7 @@ var bower_path = './bower_components';
 var js_path = 'public/js';
 mix.copy(bower_path + '/pqGrid/pqgrid.min.css', "public/css");   
 mix.copy(bower_path + '/pqGrid/pqgrid.min.js', js_path);   
-mix.copy(bower_path + '/jqueryui/jquery-ui.js', js_path);   
+mix.copy(bower_path + '/jqueryui/jquery-ui.js', js_path); 
+mix.copy(bower_path + '/bootstrap-daterangepicker/daterangepicker.css', "public/css");   
+mix.copy(bower_path + '/bootstrap-daterangepicker/daterangepicker.js', js_path);
+mix.copy(bower_path + '/moment/moment.js', js_path);   

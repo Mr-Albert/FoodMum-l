@@ -49,13 +49,21 @@ tr:nth-child(odd) {
 .pq-grid-header-search-row {
     background-color: transparent !important;
 }
+.notification-unread{
+    background-color:#fff20024 !important;
+    color:#111 !important; 
+   }
+
 </style>
     <div id="grid_notification"></div>
 @stop
 @push('js')
     <script src="{{asset('js\jquery-ui.js')}}"></script>
      <link rel="stylesheet" href="{{asset('css\pqgrid.min.css')}}" />
+     <link rel="stylesheet" href="{{asset('css\daterangepicker.css')}}" />
     <script src="{{asset('js\pqgrid.min.js')}}"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/start/jquery-ui.css" />
+    <script src="{{asset('js\moment.js')}}"></script>
+    <script src="{{asset('js\daterangepicker.js')}}"></script>
     <script src="{{asset('js\notifications.js')}}"></script>
 @endpush

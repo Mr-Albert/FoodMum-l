@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Notifications\sysNotification;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use ParamQueryHelper;
+
 class NotificationController extends Controller
 {
     /**
@@ -43,30 +46,52 @@ class NotificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($noOfNotifications)
+    public function show(Request $request, $noOfNotifications=5)
     {
+        $notifications = Auth::user()->unreadNotifications()->paginate($noOfNotifications, ['data']);
         $notificationsTitles=array();
-        $notificationsIds=array();
-        $notifications=Auth::user()->notifications()->unread($noOfNotifications)->get(['title']);
-        foreach($notifications as $notification)
-        {
-            $notificationsTitles[]=$notification['title'];
-            $notificationsIds[]=$notification['pivot']['notification_id'];
+        foreach ($notifications as $notification) {
+            $notificationsTitles[] = $notification['data']['data'];
         }
-        //bugFix:to solve the ambig update col,the query must be anything->everything->toBase()->update(...);
-        //Auth::user()->notifications()->where('read',false)->whereIn('notification_id', $notificationsIds)->toBase()->update(['read' => true,'notification_user.updated_at' => now()]);
-        return (json_encode($notificationsTitles));
+        Auth::user()->unreadNotifications()->limit($noOfNotifications)->update(['read_at' => now()]);
+       return (json_encode(array('notifications'=>$notificationsTitles,'total'=>$notifications->total())));
 
     }
 
-
-    public function showAll(Request $request,$noOfNotifications= 0)
+    public function showAll(Request $request, $noOfNotifications = 0)
     {
-        $notifications=Auth::user()->notifications()->paginate(5,['id','type','data','read_at','created_at'],'page',5)->toJSON();
-        //issue:make them read
-        return (( $notifications));
-        // $sysNotification=['title'=>'1','data'=>'anydata'];
-        // \App\User::find(1)->notify(new sysNotification($sysNotification));
+        $filters = (ParamQueryHelper::get_filters($request));
+        $query = Auth::user()->notifications();
+        foreach ($filters['filter'] as $filter) {
+            if (array_keys($filter)[0] == "data") {
+                $query->where(array_keys($filter)[0], "like", "%:%" . $filter[array_keys($filter)[0]]['values'] . "%");
+            } else if (array_keys($filter)[0] == "created_at" || array_keys($filter)[0] == "read_at") {
+                // $query->whereBetween(array_keys($filter)[0],$filter[array_keys($filter)[0]]['values'])->orWhereNull(array_keys($filter)[0]);
+                $callbackVar = array(array_keys($filter)[0], $filter[array_keys($filter)[0]]['values']);
+                $query->where(function ($innerQuery) use ($callbackVar) {
+                    return $innerQuery->whereBetween($callbackVar[0], $callbackVar[1])->orWhereNull($callbackVar[0]);
+                });
+
+            } else {
+                $query->where(array_keys($filter)[0], "like", "%" . $filter[array_keys($filter)[0]]['values'] . "%");
+            }
+
+        }
+
+        $notifications = 
+        $query->paginate($filters['records_per_page'], ['id', 'type', 'data', 'read_at', 'created_at'], 'page', $filters['current_page']);
+        /*issue:make them read*/
+        foreach ($notifications as $notificationElem) {
+            if (isset($notificationElem["data"]) && isset(($notificationElem["data"])["data"])) {
+                $notificationElem["details"] = ($notificationElem["data"])["data"];
+            }
+
+            if (isset($notificationElem["data"]) && isset(($notificationElem["data"])["title"])) {$notificationElem["data"] = ($notificationElem["data"])["title"];
+                preg_match("/.*\\\(.*)/", $notificationElem["type"], $output_array);
+                $notificationElem["type"] = $output_array[1];}
+        }
+
+        return (($notifications));
     }
 
     /**

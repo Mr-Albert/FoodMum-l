@@ -3,5 +3,8 @@
     "/css/app.css": "/css/app.css",
     "/css/pqgrid.min.css": "/css/pqgrid.min.css",
     "/js/pqgrid.min.js": "/js/pqgrid.min.js",
-    "/js/jquery-ui.js": "/js/jquery-ui.js"
+    "/js/jquery-ui.js": "/js/jquery-ui.js",
+    "/css/daterangepicker.css": "/css/daterangepicker.css",
+    "/js/daterangepicker.js": "/js/daterangepicker.js",
+    "/js/moment.js": "/js/moment.js"
 }
